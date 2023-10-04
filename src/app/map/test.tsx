@@ -1,33 +1,23 @@
-"use client";
+'use client';
 import React, { useState } from "react";
-import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import { Map, GoogleApiWrapper, Polygon , Marker} from "@react-google-maps/api";
 
-const containerStyle = {
-  width: '1400px',
-  height: '400px',
+const mapStyles = {
+  width: '100%',
+  height: '50%'
 };
 
-function MyComponent() {
-  const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: "AIzaSyC3tm0wdG920HdRqTHuEUxXc3VI7qIKQcE", // Replace with your Google Maps API key
-  });
+const rectangleCoordinates = [
+  { lat: 19.020145856138136, lng: -98.24006775697993 },
+  { lat: 19.020145856138136, lng: -98.23956775697993 },
+  { lat: 19.020645856138136, lng: -98.23956775697993 },
+  { lat: 19.020645856138136, lng: -98.24006775697993 },
+];
 
-  const [map, setMap] = React.useState(null);
+const App = (props) => {
   const [log, setLog] = useState(""); // สร้าง state สำหรับเก็บค่า log
   const [textValue, setTextValue] = useState(""); // สร้าง state สำหรับเก็บค่าใน textbox
   const [currentLocation, setCurrentLocation] = useState(null);
-  const onLoad = React.useCallback(function callback(map) {
-    // This is just an example of getting and using the map instance!!! don't just blindly copy!
-    const bounds = new window.google.maps.LatLngBounds(currentLocation);
-    map.fitBounds(bounds);
-
-    setMap(map);
-  }, []);
-
-  const onUnmount = React.useCallback(function callback(map) {
-    setMap(null);
-  }, []);
 
   const handleClick = () => {
     // เมื่อคลิกปุ่ม
@@ -40,7 +30,6 @@ function MyComponent() {
         const { latitude, longitude } = position.coords;
         setCurrentLocation({ lat: latitude, lng: longitude });
       });
-      console.log(currentLocation);
     } else {
       alert("เบราว์เซอร์ไม่รองรับ Geolocation");
     }
@@ -56,7 +45,6 @@ function MyComponent() {
       />
       <button onClick={handleClick}>นำค่าไปยัง log</button>
       <button onClick={getCurrentLocation}>ดึงตำแหน่งปัจจุบัน</button>
-
       <div>
         <h3>ค่า log:</h3>
         <p>{log}</p>
@@ -69,28 +57,43 @@ function MyComponent() {
           </p>
         )}
       </div>
-
-      {
-      currentLocation ? (
-<GoogleMap
-      mapContainerStyle={containerStyle}
-      center={currentLocation}
-      zoom={10}
-      onLoad={onLoad}
-      onUnmount={onUnmount}
-    >
-      {/* Child components, such as markers, info windows, etc. */}
-      <></>
-      
-    </GoogleMap>
+      {currentLocation ? (
+  <Map
+    google={props.google}
+    zoom={17}
+    style={mapStyles}
+    initialCenter={{
+      lat: currentLocation.lat,
+      lng: currentLocation.lng
+    }}
+  >
+    <Polygon
+      paths={rectangleCoordinates}
+      fillColor="#0000FF"
+      fillOpacity={0.35}
+      strokeColor="#0000FF"
+      strokeOpacity={0.8}
+      strokeWeight={2}
+    />
+      {/* เพิ่ม Marker */}
+  {currentLocation && (
+    <Marker
+      position={{
+        lat: currentLocation.lat,
+        lng: currentLocation.lng
+      }}
+      name="My Marker"
+    />
+  )}
+  </Map>
   
 ) : (
   <div>Loading map...</div>
 )}
 
-    
     </div>
-  )
-}
-
-export default React.memo(MyComponent);
+  );
+};
+export default GoogleApiWrapper({
+  apiKey: "AIzaSyC3tm0wdG920HdRqTHuEUxXc3VI7qIKQcE"
+})(App);
