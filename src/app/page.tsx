@@ -19,8 +19,8 @@ export default function Home() {
   
   const csrftoken = getCookie('csrftoken');
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]; // Use optional chaining here
   
     if (file) {
       const imageUrl = URL.createObjectURL(file);
@@ -29,7 +29,9 @@ export default function Home() {
     }
   };
   
-
+  const headers: { 'X-CSRFToken'?: string } = {
+    'X-CSRFToken': csrftoken, // หรือจะเป็น undefined ก็ได้
+  };
   const looptime = () => {
     for(let i=0;i<=5;i++){
       setPrediction(i)
@@ -46,21 +48,19 @@ export default function Home() {
 
     fetch('http://127.0.0.1:8000/upload/', {
       method: 'POST',
-      headers: {
-        'X-CSRFToken': csrftoken,
-      },
+      headers: headers,
       body: formData,
     })
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
-        setUploadStatus('Upload successful!');
+        setUploadStatus(2);
         setPrediction(response.prediction);
         console.log(prediction);
       })
       .catch((error) => {
         console.error(error);
-        setUploadStatus('Upload failed!');
+        setUploadStatus(2);
       });
   } else {
     console.error('No image selected.'); // Handle this case as needed.
