@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Navbar from "./components/navbar";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import React from "react";
 
 export default function Home() {
@@ -10,6 +10,7 @@ export default function Home() {
   const [prediction, setPrediction] = useState(0);
   const [uploadStatus, setUploadStatus] = useState(0);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
+
 
   function getCookie(name: string) {
     const cookieValue = document.cookie.match(
@@ -61,7 +62,7 @@ export default function Home() {
         })
         .catch((error) => {
           console.error(error);
-          setUploadStatus(2);
+          setUploadStatus(0);
         });
     } else {
       console.error("No image selected."); // Handle this case as needed.
@@ -167,43 +168,19 @@ export default function Home() {
                   <span className="sr-only">Loading...</span>
                 </div>
               ) : (
-                <div className="grid grid-rows-3">
-                  <div>
-                    <label className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
-                      <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                        {(prediction[0] * 100).toFixed(2)}
-                      </span>
-                    </label>
+                
+                  <div className="grid grid-rows-3">
+                    {/* {prediction.map((value, index) => (
+                      <div key={index}>
+                        <label className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+                          <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                            {(value * 100).toFixed(2)}
+                          </span>
+                        </label>
+                      </div>
+                    ))} */}
                   </div>
-                  <div>
-                    <label className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
-                      <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                        {(prediction[1] * 100).toFixed(2)}
-                      </span>
-                    </label>
-                  </div>
-                  <div>
-                    <label className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
-                      <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                        {(prediction[2] * 100).toFixed(2)}
-                      </span>
-                    </label>
-                  </div>
-                  <div>
-                    <label className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
-                      <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                        {(prediction[3] * 100).toFixed(2)}
-                      </span>
-                    </label>
-                  </div>
-                  <div>
-                    <label className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
-                      <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                        {(prediction[4] * 100).toFixed(2)}
-                      </span>
-                    </label>
-                  </div>
-                </div>
+                
               )}
             </div>
           </div>
