@@ -13,7 +13,7 @@ function MyComponent() {
     googleMapsApiKey: "AIzaSyC3tm0wdG920HdRqTHuEUxXc3VI7qIKQcE", // Replace with your Google Maps API key
   });
 
-  const [map, setMap] = React.useState(null);
+  
   const [log, setLog] = useState(""); // สร้าง state สำหรับเก็บค่า log
   const [textValue, setTextValue] = useState(""); // สร้าง state สำหรับเก็บค่าใน textbox
   const [currentLocation, setCurrentLocation] = useState(null);
