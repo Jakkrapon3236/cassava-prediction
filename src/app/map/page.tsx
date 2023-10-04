@@ -26,9 +26,10 @@ function MyComponent() {
   }, [currentLocation]);
   
 
-  const onUnmount = React.useCallback(function callback(map) {
+  const onUnmount = React.useCallback(function callback(map: google.maps.Map | null) {
     setMap(null);
   }, []);
+  
 
   const handleClick = () => {
     // เมื่อคลิกปุ่ม
