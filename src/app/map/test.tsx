@@ -95,5 +95,5 @@ const App = (props) => {
   );
 };
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyC3tm0wdG920HdRqTHuEUxXc3VI7qIKQcE"
+  apiKey: "key"
 })(App);
