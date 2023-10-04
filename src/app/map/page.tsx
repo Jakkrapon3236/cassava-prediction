@@ -13,17 +13,18 @@ function MyComponent() {
     googleMapsApiKey: "AIzaSyC3tm0wdG920HdRqTHuEUxXc3VI7qIKQcE", // Replace with your Google Maps API key
   });
 
-  
+  const [map, setMap] = React.useState(null);
   const [log, setLog] = useState(""); // สร้าง state สำหรับเก็บค่า log
   const [textValue, setTextValue] = useState(""); // สร้าง state สำหรับเก็บค่าใน textbox
   const [currentLocation, setCurrentLocation] = useState(null);
-  const onLoad = React.useCallback(function callback(map) {
+  const onLoad = React.useCallback(function callback(map: google.maps.Map) {
     // This is just an example of getting and using the map instance!!! don't just blindly copy!
-    const bounds = new window.google.maps.LatLngBounds(currentLocation);
-    map.fitBounds(bounds);
-
-    setMap(map);
-  }, []);
+    if (currentLocation) {
+      const bounds = new window.google.maps.LatLngBounds(currentLocation);
+      map.fitBounds(bounds);
+    }
+  }, [currentLocation]);
+  
 
   const onUnmount = React.useCallback(function callback(map) {
     setMap(null);
