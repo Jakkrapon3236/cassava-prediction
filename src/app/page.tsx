@@ -9,7 +9,7 @@ export default function Home() {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [prediction,setPrediction] = useState(0)
   const [uploadStatus, setUploadStatus] = useState(0);
-  const [previewImage, setPreviewImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
   
 
   function getCookie(name : string) {
@@ -19,8 +19,8 @@ export default function Home() {
   
   const csrftoken = getCookie('csrftoken');
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]; // Use optional chaining here
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
   
     if (file) {
       const imageUrl = URL.createObjectURL(file);
