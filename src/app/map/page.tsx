@@ -16,7 +16,7 @@ function MyComponent() {
   const [map, setMap] = React.useState(null);
   const [log, setLog] = useState(""); // สร้าง state สำหรับเก็บค่า log
   const [textValue, setTextValue] = useState(""); // สร้าง state สำหรับเก็บค่าใน textbox
-  const [currentLocation, setCurrentLocation] = useState(null);
+  const [currentLocation, setCurrentLocation] = useState<null | { lat: number; lng: number }>(null);
   const onLoad = React.useCallback(function callback(map: google.maps.Map) {
     // This is just an example of getting and using the map instance!!! don't just blindly copy!
     if (currentLocation) {
@@ -42,7 +42,6 @@ function MyComponent() {
         const { latitude, longitude } = position.coords;
         setCurrentLocation({ lat: latitude, lng: longitude });
       });
-      console.log(currentLocation);
     } else {
       alert("เบราว์เซอร์ไม่รองรับ Geolocation");
     }
